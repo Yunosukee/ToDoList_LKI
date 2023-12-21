@@ -8,13 +8,18 @@ const swaggerAutogen = require('./swagger')
 const app = express();
 const port = process.env.PORT || 3000
 
-//swagger
+//app.use(express.json());
 
+app.get('/test',query.testGet /**/)
 
-app.get('/Notes/getnotesbyuserid/:userid',query.getNotesByUserId /* #swagger.tags = ['Notes']*/);
-app.post('/Notes/editnotebynoteid/',query.editNoteByNoteId /* #swagger.tags = ['Notes']*/);
+app.post('/Notes/createNote',query.createNote /* #swagger.tags = ['Notes']*/)
+app.get('/Notes/getNotesByUserId/:userId',query.getNotesByUserId /* #swagger.tags = ['Notes']*/);
+app.post('/Notes/editNoteByNoteId/',query.editNoteByNoteId /* #swagger.tags = ['Notes']*/);
+app.delete('/Notes/deteteNoteByNoteId/:noteId',query.deleteNoteByNoteId /* #swagger.tags = ['Notes']*/);
 
-app.get('/Permissions/getpermissionbynoteid/:noteid',query.getPermissionByNoteId /* #swagger.tags = ['Permissions']*/);
+app.get('/Permissions/getPermissionByNoteId/:noteId',query.getPermissionByNoteId /* #swagger.tags = ['Permissions']*/);
+app.post('/Permissions/editPermissionByPermissionId/',query.editPermissionByPermissionId /* #swagger.tags = ['Permissions']*/)
+app.delete('/Permissions/deletePermissionByPermissionId/:permissionId',query.deletePermissionByPermissionId /* #swagger.tags = ['Permissions']*/)
 
 swaggerAutogen().then(() => {
 	app.use('/api-doc', swaggerUi.serve, (req,res,next) => {

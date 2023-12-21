@@ -20,7 +20,56 @@
     "https"
   ],
   "paths": {
-    "/Notes/getnotesbyuserid/{userid}": {
+    "/test": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/Notes/createNote": {
+      "post": {
+        "tags": [
+          "Notes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "noteHeader": {
+                  "example": "any"
+                },
+                "noteBody": {
+                  "example": "any"
+                },
+                "ownerId": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/Notes/getNotesByUserId/{userId}": {
       "get": {
         "tags": [
           "Notes"
@@ -28,7 +77,7 @@
         "description": "",
         "parameters": [
           {
-            "name": "userid",
+            "name": "userId",
             "in": "path",
             "required": true,
             "type": "string"
@@ -37,11 +86,14 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
     },
-    "/Notes/editnotebynoteid/": {
+    "/Notes/editNoteByNoteId/": {
       "post": {
         "tags": [
           "Notes"
@@ -77,15 +129,15 @@
         }
       }
     },
-    "/Permissions/getpermissionbynoteid/{noteid}": {
-      "get": {
+    "/Notes/deteteNoteByNoteId/{noteId}": {
+      "delete": {
         "tags": [
-          "Permissions"
+          "Notes"
         ],
         "description": "",
         "parameters": [
           {
-            "name": "noteid",
+            "name": "noteId",
             "in": "path",
             "required": true,
             "type": "string"
@@ -94,6 +146,93 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/Permissions/getPermissionByNoteId/{noteId}": {
+      "get": {
+        "tags": [
+          "Permissions"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "noteId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/Permissions/editPermissionByPermissionId/": {
+      "post": {
+        "tags": [
+          "Permissions"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "permissionId": {
+                  "example": "any"
+                },
+                "userId": {
+                  "example": "any"
+                },
+                "canEdit": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/Permissions/deletePermissionByPermissionId/{permissionId}": {
+      "delete": {
+        "tags": [
+          "Permissions"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "permissionId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }

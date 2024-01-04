@@ -16,6 +16,9 @@ const config = {
 		},
 		{
 			'name': 'Permissions',
+		},
+		{
+			'name': 'Users',
 		}
 	],
 	host: 'localhost:3000',

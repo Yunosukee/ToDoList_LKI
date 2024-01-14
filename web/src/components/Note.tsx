@@ -9,13 +9,13 @@ interface NoteProps {
 
 const Note = (props: NoteProps) => {
 	return (
-		<div className="card bg-base-200 shadow-xl border-solid border-[1px] border-base-200 w-96 h-96 p-4 relative">
+		<div className="card bg-base-200 shadow-xl w-96 h-96 p-4 relative border-solid border-[2px] border-base-300">
 			<div className="absolute top-1 right-1">
 				<div className="dropdown dropdown-end">
 					<div
 						tabIndex={0}
 						role="button"
-						className="btn btn-neutral btn-square  btn-sm"
+						className="btn btn-square btn-sm bg-base-100 border-solid border-[2px] border-base-300"
 					>
 						{/* 3 dot menu button */}
 						<DotMenuIcon />

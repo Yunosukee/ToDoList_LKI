@@ -1,8 +1,7 @@
-import { atom, useAtom } from "jotai";
-const counterAtom = atom(0);
+import { useState } from "react";
 
 const HomePage = () => {
-	const [counter, setCounter] = useAtom(counterAtom);
+	const [counter, setCounter] = useState(0);
 
 	return (
 		<div>

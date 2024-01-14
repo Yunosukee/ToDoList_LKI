@@ -6,7 +6,6 @@ import App from "./App";
 import inDev from "./utils/inDebug";
 import { Global, css } from "@emotion/react";
 import "/style.css";
-import { Provider } from "jotai";
 
 setupAxiosInterceptors();
 inDev(() => console.log(viteEnv));
@@ -19,8 +18,6 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 				// You can add more global styles here
 			`}
 		/>
-		<Provider>
-			<App />
-		</Provider>
+		<App />
 	</React.StrictMode>,
 );

@@ -4,7 +4,7 @@ import inDev from "../utils/inDebug";
 const ThemeButton = () => {
 	const [isDark, toggleTheme] = useTheme();
 	return (
-		<label className="swap swap-rotate btn btn-outline btn-circle">
+		<label className="swap swap-rotate btn btn-circle">
 			<input
 				checked={isDark}
 				className="hidden"

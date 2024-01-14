@@ -226,7 +226,7 @@ const disableUserByUserId = async (req, res) => {
 	const userId = parseInt(req.params.userId);
 	if (isNumber(userId)){
 		try{
-			//db.query('UPDATE note.users SET isactive = false WHERE id = $1', [userId])
+			db.query('UPDATE note.users SET isactive = false WHERE id = $1', [userId])
 			res.status(200).send('Ok')
 		} catch (err) {
 			console.log(err)

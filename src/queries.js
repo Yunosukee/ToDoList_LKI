@@ -222,6 +222,17 @@ const getUserByUserId = async (req, res) => {
 	}
 }
 
+const editUserPasswordByUserIf = async (req, res) => {
+	const {userId, newPassword} = req.body;
+	try{
+		db.query('UPDATE note.users SET password = $1 WHERE id = $2', [newPassword, userId])
+		res.status(200).send('OK')
+	} catch (err) {
+		console.log(err)
+		res.status(500).send('Internal Server Error')
+	}
+}
+
 const disableUserByUserId = async (req, res) => {
 	const userId = parseInt(req.params.userId);
 	if (isNumber(userId)){

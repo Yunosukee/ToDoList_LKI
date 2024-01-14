@@ -4,7 +4,7 @@
   "description": "Projekt na studium przypadku - programowanie w grupie programistycznej",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/index.js"
+    "start": "nodemon --ignore src/swagger.json src/index.js "
   },
   "author": "",
   "license": "ISC",

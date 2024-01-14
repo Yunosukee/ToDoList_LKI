@@ -5,5 +5,5 @@ COPY package.json package-lock.json .
 RUN npm install
 COPY . .
 EXPOSE 3000
-CMD [ "npm", "build"]
-CMD [ "npm", "preview"]
+RUN npm run build
+CMD [ "npm","run", "preview"]

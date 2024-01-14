@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "allowImportingTsExtensions": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noErrorTruncation": true,
+    /* "react-jsx" and "react-jsxdev": These are new options available from TypeScript 4.1 onwards. "react-jsx" transforms JSX into calls to a function that will be imported from react/jsx-runtime. "react-jsxdev" does the same, but for development builds. These options are useful if you're using React 17 or later, which introduced a new JSX Transform.
+    Remember that to use these options, you also need to set the module compiler option to esnext or commonjs, because the output will contain import statements.*/
+    "jsx": "react-jsx",
+    /* Vite handle emiting */
+    "noEmit": true,
+    "useDefineForClassFields": true,
+    /* 
+    "strict": true in TypeScript's tsconfig.json is an overarching setting that turns on a number of strict type-checking options. Some of these could overlap with ESLint rules related to good practices in JavaScript and TypeScript coding. However, since ESLint and TypeScript serve different purposes (ESLint for style and syntax, TypeScript for type checking), there usually isn't a direct conflict.
+    "noUnusedLocals": true and "noUnusedParameters": true in TypeScript could overlap with ESLint's no-unused-vars rule, which flags declared variables or arguments that are not used anywhere in the code.
+    "noFallthroughCasesInSwitch": true could overlap with ESLint's no-fallthrough rule, which disallows fallthrough behavior in switch statements, a common error in JavaScript. */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+}

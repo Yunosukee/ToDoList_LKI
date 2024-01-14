@@ -1,0 +1,24 @@
+pipeline {
+    agent any    
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('Hello World') {
+            steps {
+                dir('frontend') {
+                    sh 'echo "Hello World!"'
+                }
+            }
+        }
+    }
+    post {
+        always {
+            // Cleanup the workspace
+            cleanWs()
+        }
+    }
+}

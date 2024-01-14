@@ -8,7 +8,7 @@ function App() {
 	return (
 		// Router component with base path
 		<Router base={main.basePath}>
-			<div className="space-x-4 space-y-6">
+			<div className=" space-y-6">
 				<div className="px-5 mt-6">
 					{/* Displaying program name and version */}
 					<h1 className="text-center ">

@@ -11,5 +11,6 @@ export default ({ mode }) => {
 				clearScreen: true,
 			},
 		},
+		base: process.env.BASE_URL,
 	});
 };

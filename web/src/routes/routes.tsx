@@ -3,12 +3,13 @@
 // ----- IMPORT PAGES -----
 import LoginPage from "../pages/LoginPage";
 // ----- IMPORT CONSTS -----
-import { NOTES, SETTINGS } from "../consts";
+import { LOGIN, NOTES, SETTINGS } from "../consts";
 import { capitalizeFirstLetter } from "../utils/StringTransformationUtils";
 import NotesPage from "../pages/NotesPage";
 import SettingsOutlineIcon from "../assets/icons/SettingsOutlineIcon";
 import LoginIcon from "../assets/icons/LoginIcon";
 import NotesIcon from "../assets/icons/NotesIcon";
+import SettingsPage from "../pages/SettingsPage";
 
 // ----- TYPE DEFINITIONS -----
 export type Routes = {
@@ -29,8 +30,8 @@ export type Routes = {
 
 export const routesRoot: Routes[] = [
 	{
-		name: "Login",
-		path: "login",
+		name: capitalizeFirstLetter(LOGIN),
+		path: LOGIN,
 		component: LoginPage,
 		icon: LoginIcon,
 	},
@@ -43,7 +44,7 @@ export const routesRoot: Routes[] = [
 	{
 		name: capitalizeFirstLetter(SETTINGS),
 		path: SETTINGS,
-		component: () => <>⚙️ Settings ⚙️</>,
+		component: SettingsPage,
 		icon: SettingsOutlineIcon,
 	},
 ];

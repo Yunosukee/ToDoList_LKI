@@ -20,7 +20,7 @@ const Note = (props: NoteProps) => {
 						{/* 3 dot menu button */}
 						<DotMenuIcon />
 					</div>
-					<ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+					<ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52 gap-2">
 						<li>
 							<button>
 								<PeopleIcon />
@@ -28,7 +28,7 @@ const Note = (props: NoteProps) => {
 							</button>
 						</li>
 						<li>
-							<button>
+							<button className="bg-error">
 								<DeleteIcon />
 								Delete
 							</button>

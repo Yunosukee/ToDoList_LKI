@@ -226,17 +226,22 @@ const disableUserByUserId = async (req, res) => {
 	const userId = parseInt(req.params.userId);
 	if (isNumber(userId)){
 		try{
-			db.query('UPDATE note.users SET isactive = false WHERE id = $1', [userId])
+			//db.query('UPDATE note.users SET isactive = false WHERE id = $1', [userId])
 			res.status(200).send('Ok')
 		} catch (err) {
 			console.log(err)
 			res.status(500).send('error')
 		}
+			const result = await db.query('SELECT id FROM note.notes WHERE owner_id = $1', [userId])
+		  const values = result.rows.map(row => row.id);
+			values.forEach((element) => db.query('DELETE from note.notespermissions WHERE note_id = $1', [element]))
 	} else {
 		console.log("'deleteUserByUserId' - userId is " + userId)
 		res.status(400).send('userId is out of scope')
 	}
 }
+
+
 
 
 module.exports = {

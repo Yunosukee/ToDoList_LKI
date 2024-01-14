@@ -1,5 +1,7 @@
-import { MdDelete } from "react-icons/md";
-import { MdPeople } from "react-icons/md";
+import DeleteIcon from "../assets/icons/DeleteIcon";
+import DotMenuIcon from "../assets/icons/DotMenuIcon";
+import PeopleIcon from "../assets/icons/PeopleIcon";
+
 interface NoteProps {
 	header: string;
 	body: string;
@@ -16,34 +18,18 @@ const Note = (props: NoteProps) => {
 						className="btn btn-neutral btn-square  btn-sm"
 					>
 						{/* 3 dot menu button */}
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							className="icon icon-tabler icon-tabler-dots-vertical"
-							width="24"
-							height="24"
-							viewBox="0 0 24 24"
-							strokeWidth="1.5"
-							stroke="currentColor"
-							fill="none"
-							strokeLinecap="round"
-							strokeLinejoin="round"
-						>
-							<path stroke="none" d="M0 0h24v24H0z" />
-							<circle cx="12" cy="12" r="1" />
-							<circle cx="12" cy="19" r="1" />
-							<circle cx="12" cy="5" r="1" />
-						</svg>
+						<DotMenuIcon />
 					</div>
 					<ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
 						<li>
 							<button>
-								<MdPeople />
+								<PeopleIcon />
 								Permissions
 							</button>
 						</li>
 						<li>
 							<button>
-								<MdDelete />
+								<DeleteIcon />
 								Delete
 							</button>
 						</li>

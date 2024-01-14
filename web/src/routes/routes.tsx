@@ -1,12 +1,14 @@
 // ----- IMPORT ICONS -----
-import { RiHome3Fill } from "react-icons/ri";
-import { IoMdOptions } from "react-icons/io";
+//---
 // ----- IMPORT PAGES -----
 import LoginPage from "../pages/LoginPage";
 // ----- IMPORT CONSTS -----
 import { NOTES, SETTINGS } from "../consts";
 import { capitalizeFirstLetter } from "../utils/StringTransformationUtils";
 import NotesPage from "../pages/NotesPage";
+import SettingsOutlineIcon from "../assets/icons/SettingsOutlineIcon";
+import LoginIcon from "../assets/icons/LoginIcon";
+import NotesIcon from "../assets/icons/NotesIcon";
 
 // ----- TYPE DEFINITIONS -----
 export type Routes = {
@@ -70,18 +72,18 @@ export const routesRoot: Routes[] = [
 		name: "Login",
 		path: "login",
 		component: LoginPage,
-		icon: RiHome3Fill,
+		icon: LoginIcon,
 	},
 	{
 		name: capitalizeFirstLetter(NOTES),
 		path: NOTES,
 		component: NotesPage,
-		icon: IoMdOptions,
+		icon: NotesIcon,
 	},
 	{
 		name: capitalizeFirstLetter(SETTINGS),
 		path: SETTINGS,
 		component: () => <>⚙️ Settings ⚙️</>,
-		icon: IoMdOptions,
+		icon: SettingsOutlineIcon,
 	},
 ];

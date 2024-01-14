@@ -26,7 +26,7 @@ app.post('/Users/login',query.login /* #swagger.tags = ['Users']*/);
 app.post('/Users/createUser',query.createUser /* #swagger.tags = ['Users']*/);
 app.get('/Users/getUserByUserId/:userId',query.getUserByUserId /* #swagger.tags = ['Users']*/);
 //app.post('/Users/editUserByUserId/:userId',query. /* #swagger.tags = ['Users']*/);
-//app.post('/Users/editUserPasswordByUserId/:userId',querry. /* #swagger.tags = ['Users']*/)
+app.post('/Users/editUserPasswordByUserId/',query.editUserPasswordByUserId /* #swagger.tags = ['Users']*/)
 //app.post('/Users/editUserParametersByUserId/:userId',querry. /* #swagger.tags = ['Users']*/)
 app.delete('/User/disableUserByUserId/:userId', query.disableUserByUserId /* #swagger.tags = ['Users']*/);
 

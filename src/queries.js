@@ -222,14 +222,19 @@ const getUserByUserId = async (req, res) => {
 	}
 }
 
-const editUserPasswordByUserIf = async (req, res) => {
+const editUserPasswordByUserId = async (req, res) => {
 	const {userId, newPassword} = req.body;
-	try{
-		db.query('UPDATE note.users SET password = $1 WHERE id = $2', [newPassword, userId])
-		res.status(200).send('OK')
-	} catch (err) {
-		console.log(err)
-		res.status(500).send('Internal Server Error')
+	if(isNumber(userId)){
+		try{
+			db.query('UPDATE note.users SET password = $1 WHERE id = $2', [newPassword, userId])
+			res.status(200).send('OK')
+		} catch (err) {
+			console.log(err)
+			res.status(500).send('Internal Server Error')
+		}
+	} else {
+		console.log("'editUserPasswordByUserId' - userId is " + userId)
+		res.status(400).send('userId is out of scope')
 	}
 }
 
@@ -272,6 +277,6 @@ module.exports = {
 	login,
 	createUser,
   getUserByUserId,
-
+	editUserPasswordByUserId,
 	disableUserByUserId,
 }

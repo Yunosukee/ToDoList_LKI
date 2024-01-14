@@ -1,6 +1,6 @@
 import React from "react";
 import { v4 } from "uuid";
-import { Route, Switch } from "wouter";
+import { Redirect, Route, Switch } from "wouter";
 import inDev from "../utils/inDebug";
 import * as R from "./routes";
 import { Routes } from "./routes";
@@ -42,9 +42,16 @@ const routesCrawler = (
  */
 const SwitchRoutesGenerator = () => {
 	return (
-		<Switch key={v4()}>
+		<Switch key={"switch_component"}>
 			{routesCrawler()}
-			<Route component={() => <>404</>} />
+			{/* Redirect any unmatched path to /login */}
+			<Route path="/">
+				<Redirect to="login" />
+			</Route>
+			{/* This 404 Route will never be reached as the above * path will always match */}
+			<Route>
+				<>404</>
+			</Route>
 		</Switch>
 	);
 };

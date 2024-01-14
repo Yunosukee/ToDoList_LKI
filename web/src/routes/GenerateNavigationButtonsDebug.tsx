@@ -1,9 +1,9 @@
 import React from "react";
 import { v4 } from "uuid";
 import { Link } from "wouter";
+import inDev from "../utils/inDebug";
 import * as R from "./routes";
 import { Routes } from "./routes";
-import inDev from "../utils/inDebug";
 
 const routesCrawler = (
 	parentPath?: string,

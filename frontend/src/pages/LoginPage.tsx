@@ -2,6 +2,8 @@ import ThemeButton from "../components/ThemeButton";
 import { z } from "zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { LoginErrorInterface, appApi } from "../api/services/AppApi";
+import { useState } from "react";
 
 const loginSchema = z.object({
 	login: z.string().min(1, "Login is required"),
@@ -12,11 +14,13 @@ const loginSchema = z.object({
 type LoginFormInputs = z.infer<typeof loginSchema>;
 
 const LoginPage = () => {
+	const [loginDataReturn, setLoginReturnError] = useState({});
 	// Use the useForm hook with Zod resolver
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
+		setError,
 	} = useForm<LoginFormInputs>({
 		resolver: zodResolver(loginSchema),
 	});
@@ -24,6 +28,18 @@ const LoginPage = () => {
 	// Function to handle form submission
 	const onSubmit: SubmitHandler<LoginFormInputs> = (data) => {
 		console.log(data);
+		appApi.login(data).then(
+			(response) => {
+				console.log("GOOD", response);
+			},
+			(error: LoginErrorInterface) => {
+				setLoginReturnError(error.response.data);
+				setError("login", {
+					type: "manual",
+					message: error.response.data,
+				});
+			},
+		);
 		// Handle login logic here
 	};
 
@@ -69,6 +85,7 @@ const LoginPage = () => {
 				<button type="submit" className="btn btn-primary">
 					Login
 				</button>
+				<p>{JSON.stringify(loginDataReturn)}</p>
 				{/* <Link href={NOTES} className="btn btn-primary">
 					Login
 				</Link> */}

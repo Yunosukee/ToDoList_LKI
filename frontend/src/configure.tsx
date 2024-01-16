@@ -5,6 +5,7 @@ export const main = {
 	program_name: `${viteEnv.VITE_APP_NAME}${
 		viteEnv.MODE ? " [development]" : ""
 	}`,
+	api_url: viteEnv.VITE_API_URL,
 	program_version: "1.0.0",
 	basePath: viteEnv.VITE_BASE_PATH,
 };

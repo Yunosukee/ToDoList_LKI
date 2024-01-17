@@ -1,4 +1,3 @@
 .git
 .gitignore
-web/
-node_modules/
+# node_modules/

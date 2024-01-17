@@ -23,7 +23,7 @@ const routesCrawler = (
 				{/* Check does route have children and perform routing generation for children */}
 				<Link
 					className={`btn join-item hover:btn-primary duration-75 `}
-					href={
+					to={
 						parentPath ? parentPath + route.path : route.path != "/" ? route.path : ""
 					}
 				>

@@ -3,13 +3,13 @@ import ThemeButton from "../components/ThemeButton";
 import SettingsOutlineIcon from "../assets/icons/SettingsOutlineIcon";
 import LogoutIcon from "../assets/icons/LogoutIcon";
 import AddIcon from "../assets/icons/AddIcon";
-import { Link, useLocation } from "wouter";
 import { SETTINGS } from "../consts";
 import useSessionStorage from "../hooks/useSessionStorage";
+import { Link, useNavigate } from "react-router-dom";
 
 const NotesPage = () => {
 	const [, setToken] = useSessionStorage<string | null>("token", null);
-	const [, setLocation] = useLocation();
+	const navigate = useNavigate();
 	return (
 		<div className="min-h-screen">
 			<div className="text-center p-4">
@@ -19,7 +19,7 @@ const NotesPage = () => {
 							<ThemeButton />
 						</div>
 						<div className="tooltip tooltip-left" data-tip="Settings">
-							<Link href={SETTINGS}>
+							<Link to={SETTINGS}>
 								<button className="btn btn-circle">
 									<SettingsOutlineIcon />
 								</button>
@@ -30,7 +30,7 @@ const NotesPage = () => {
 								className="btn btn-circle"
 								onClick={() => {
 									setToken(null);
-									setLocation("login");
+									navigate("/");
 								}}
 							>
 								<LogoutIcon />

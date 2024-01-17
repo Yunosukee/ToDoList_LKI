@@ -1,19 +1,13 @@
 import React from "react";
 import { v4 } from "uuid";
-// import { Redirect, Route, Switch } from "wouter";
-import {
-	BrowserRouter as Router,
-	Routes,
-	Route,
-	Navigate,
-} from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import inDev from "../utils/inDebug";
 import * as R from "./routes";
-import { Routes } from "./routes";
+import { Routes as IRoutes } from "./routes";
 
 const routesCrawler = (
 	parentPath?: string,
-	routesPack: Routes[] = R.routesRoot,
+	routesPack: IRoutes[] = R.routesRoot,
 ): JSX.Element[] => {
 	// Roll through routes and generate Route for each
 	return routesPack.map((route): JSX.Element => {
@@ -30,14 +24,14 @@ const routesCrawler = (
 				<Route
 					key={v4()}
 					path={parentPath ? parentPath + route.path : route.path}
-					component={route.component}
+					Component={route.component}
 				/>
 			</React.Fragment>
 		) : (
 			<Route
 				key={v4()}
 				path={parentPath ? parentPath + route.path : route.path}
-				component={route.component}
+				Component={route.component}
 			/>
 		);
 	});

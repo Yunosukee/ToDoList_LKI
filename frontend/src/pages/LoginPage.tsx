@@ -1,11 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useLocation } from "wouter";
 import { z } from "zod";
 import { LoginErrorInterface, appApi } from "../api/services/AppApi";
 import ThemeButton from "../components/ThemeButton";
 import useSessionStorage from "../hooks/useSessionStorage";
+import { useNavigate } from "react-router-dom";
+import ToastMessage from "../components/ToastMessage";
 
 const loginSchema = z.object({
 	login: z.string().min(1, "Login is required"),
@@ -19,8 +20,11 @@ const LoginPage = () => {
 	// ---- HOOKS ----
 	const [isSubmitting, setIsSetsubmitting] = useState(false); // Locks login button while submitting
 	const [isError, setIsError] = useState(false); // Error status
-	const [, setLocation] = useLocation(); // Location hook from wouter (used to redirect to the notes page)
-	const [, setSessionToken] = useSessionStorage<string | null>("token", null); // Keep/read the session token in the local storage
+	const navigate = useNavigate(); // Location hook from wouter (used to redirect to the notes page)
+	const [sessionToken, setSessionToken] = useSessionStorage<string | null>(
+		"token",
+		null,
+	); // Keep/read the session token in the local storage
 	const [popupMessage, setPopupMessage] = useState<string | null>(null);
 	// Use the useForm hook with Zod resolver
 	const {
@@ -43,7 +47,6 @@ const LoginPage = () => {
 				setSessionToken(response.data);
 				// Display OK message
 				setPopupMessage("Login successful!");
-				setLocation("notes");
 			})
 			.catch((error: LoginErrorInterface) => {
 				setIsError(true);
@@ -54,21 +57,6 @@ const LoginPage = () => {
 			});
 	};
 	// Function to handle the toast
-	const handleToast = () => {
-		if (isError) {
-			return (
-				<div className="toast toast-top toast-start z-10">
-					<div className="alert alert-error">{popupMessage ?? null}</div>
-				</div>
-			);
-		} else if (popupMessage) {
-			return (
-				<div className="toast toast-top toast-start z-10">
-					<div className="alert alert-success">{popupMessage ?? null}</div>
-				</div>
-			);
-		}
-	};
 
 	// ---- EFFECTS ----
 	useEffect(() => {
@@ -78,6 +66,9 @@ const LoginPage = () => {
 		}, 3000);
 		return () => clearTimeout(timer);
 	}, [popupMessage]);
+	useEffect(() => {
+		if (sessionToken) navigate("/notes");
+	});
 
 	// ---- RENDER ----
 	return (
@@ -89,7 +80,7 @@ const LoginPage = () => {
 				</div>
 			</div>
 			{/* Toast */}
-			{handleToast()}
+			<ToastMessage toastMessage={popupMessage} isError={isError} />
 			{/* Login */}
 			<div className="hero-content flex-col">
 				<form

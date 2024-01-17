@@ -1,6 +1,6 @@
 import React from "react";
 import { v4 } from "uuid";
-import { Link } from "wouter";
+import { Link } from "react-router-dom";
 import inDev from "../utils/inDebug";
 import * as R from "./routes";
 import { Routes } from "./routes";

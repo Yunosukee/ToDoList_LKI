@@ -9,22 +9,15 @@ interface LoginInterface {
 	password: string;
 }
 export interface LoginResponseInterface {
-	id: string;
+	data: string;
 }
 export interface LoginErrorInterface {
-	stack: string;
 	message: string;
-	name: string;
-	code: string;
-	config: string;
-	request: string;
 	response: { data: string };
 }
 
 export const appApi = {
-	login: (
-		data: LoginInterface,
-	): Promise<AxiosResponse<LoginResponseInterface, LoginErrorInterface>> => {
+	login: (data: LoginInterface): Promise<AxiosResponse> => {
 		return axiosPost(API_URL + "/Users/login", data);
 	},
 };

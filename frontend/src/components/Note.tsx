@@ -40,17 +40,15 @@ const Note = (props: NoteProps) => {
 				rows={1}
 				className="textarea textarea-bordered resize-none bg-base-200 max-w-xs"
 				placeholder="Header"
-			>
-				{props.header}
-			</textarea>
+				defaultValue={props.header}
+			/>
 
 			<div className="card-body text-left">
 				<textarea
 					className="textarea textarea-bordered h-full resize-none bg-base-200"
 					placeholder="Body"
-				>
-					{props.body}
-				</textarea>
+					defaultValue={props.body}
+				/>
 			</div>
 
 			<div className="card-actions justify-end">

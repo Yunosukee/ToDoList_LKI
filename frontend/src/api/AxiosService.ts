@@ -18,7 +18,7 @@ export const setupAxiosInterceptors = () => {
 			// Do something with response data
 			const status = response.status;
 			if (status === 200 && response.data) {
-				console.error(response.data);
+				// console.error(response.data);
 			}
 			// Check if the status code is 401 (requires user authentication)
 			if (status === 401) {

@@ -1,6 +1,12 @@
 import React from "react";
 import { v4 } from "uuid";
-import { Redirect, Route, Switch } from "wouter";
+// import { Redirect, Route, Switch } from "wouter";
+import {
+	BrowserRouter as Router,
+	Routes,
+	Route,
+	Navigate,
+} from "react-router-dom";
 import inDev from "../utils/inDebug";
 import * as R from "./routes";
 import { Routes } from "./routes";
@@ -42,17 +48,12 @@ const routesCrawler = (
  */
 const SwitchRoutesGenerator = () => {
 	return (
-		<Switch key={"switch_component"}>
+		<Routes key={"switch_component"}>
 			{routesCrawler()}
 			{/* Redirect any unmatched path to /login */}
-			<Route path="/">
-				<Redirect to="login" />
-			</Route>
-			{/* This 404 Route will never be reached as the above * path will always match */}
-			<Route>
-				<>404</>
-			</Route>
-		</Switch>
+			<Route path="/" element={<Navigate to="login" />} />
+			<Route path="*" element={<>404</>} />
+		</Routes>
 	);
 };
 

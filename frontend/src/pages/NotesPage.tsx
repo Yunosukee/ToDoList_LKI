@@ -3,10 +3,13 @@ import ThemeButton from "../components/ThemeButton";
 import SettingsOutlineIcon from "../assets/icons/SettingsOutlineIcon";
 import LogoutIcon from "../assets/icons/LogoutIcon";
 import AddIcon from "../assets/icons/AddIcon";
-import { Link } from "wouter";
-import { LOGIN, SETTINGS } from "../consts";
+import { Link, useLocation } from "wouter";
+import { SETTINGS } from "../consts";
+import useSessionStorage from "../hooks/useSessionStorage";
 
 const NotesPage = () => {
+	const [, setToken] = useSessionStorage<string | null>("token", null);
+	const [, setLocation] = useLocation();
 	return (
 		<div className="min-h-screen">
 			<div className="text-center p-4">
@@ -23,11 +26,15 @@ const NotesPage = () => {
 							</Link>
 						</div>
 						<div className="tooltip tooltip-left" data-tip="Logout">
-							<Link href={LOGIN}>
-								<button className="btn btn-circle">
-									<LogoutIcon />
-								</button>
-							</Link>
+							<button
+								className="btn btn-circle"
+								onClick={() => {
+									setToken(null);
+									setLocation("login");
+								}}
+							>
+								<LogoutIcon />
+							</button>
 						</div>
 						<div className="tooltip tooltip-left" data-tip="Add new note">
 							<button className="btn btn-circle">
@@ -35,7 +42,6 @@ const NotesPage = () => {
 							</button>
 						</div>
 					</div>
-
 					<Note header="Header" body="Body" />
 				</div>
 			</div>

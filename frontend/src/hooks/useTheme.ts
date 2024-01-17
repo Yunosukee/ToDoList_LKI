@@ -13,7 +13,6 @@ const useTheme = (): [boolean, () => void] => {
 	};
 
 	useEffect(() => {
-		console.log("useEffect called");
 		document.documentElement.dataset.theme = theme;
 	}, [theme]);
 

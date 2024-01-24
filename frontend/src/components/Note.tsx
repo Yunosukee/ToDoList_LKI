@@ -1,15 +1,24 @@
 import DeleteIcon from "../assets/icons/DeleteIcon";
 import DotMenuIcon from "../assets/icons/DotMenuIcon";
 import PeopleIcon from "../assets/icons/PeopleIcon";
+import {appApi } from "../api/services/AppApi";
+import ToastMessage from "./ToastMessage";
+import { useState } from "react";
 
 interface NoteProps {
 	header: string;
 	body: string;
+	noteId: string;
 }
 
+
+
 const Note = (props: NoteProps) => {
+	const [popupMessage, setPopupMessage] = useState<string | null>(null);
+
 	return (
 		<div className="card bg-base-200 shadow-xl w-96 h-96 p-4 relative border-solid border-[2px] border-base-300">
+			<ToastMessage toastMessage={popupMessage}/>
 			<div className="absolute top-1 right-1">
 				<div className="dropdown dropdown-end">
 					<div
@@ -36,10 +45,11 @@ const Note = (props: NoteProps) => {
 					</ul>
 				</div>
 			</div>
+			<p>{props.noteId}</p>
 			<textarea
 				rows={1}
 				className="textarea textarea-bordered resize-none bg-base-200 max-w-xs"
-				placeholder="Header"
+				placeholder="Header" 
 				defaultValue={props.header}
 			/>
 
@@ -52,7 +62,19 @@ const Note = (props: NoteProps) => {
 			</div>
 
 			<div className="card-actions justify-end">
-				<button className="btn btn-primary">Save</button>
+				<button 
+					className="btn btn-primary"
+					onClick={() => {
+						appApi
+							.editNote({noteId: props.noteId, note_header: props.header, note_body: props.body})
+							.then((response) => {
+								setPopupMessage("Saved!");
+								console.log(JSON.stringify(response))
+							})
+					}}
+					>
+					Save
+				</button>
 			</div>
 		</div>
 	);

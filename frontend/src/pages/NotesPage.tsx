@@ -6,10 +6,36 @@ import AddIcon from "../assets/icons/AddIcon";
 import { SETTINGS } from "../consts";
 import useSessionStorage from "../hooks/useSessionStorage";
 import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { appApi } from "../api/services/AppApi";
+
+
 
 const NotesPage = () => {
 	const [, setToken] = useSessionStorage<string | null>("token", null);
 	const navigate = useNavigate();
+	const [data, setData] = useState([]);
+  
+	useEffect(() => {
+	  const fetchNotes = async () =>{
+		const userId = sessionStorage.getItem('token');
+		try {
+			appApi
+	  		.getNote(userId)
+				.then((response) => {
+					setData(response.data)
+				})
+				} catch (err) {
+				console.log("error getting notes " + err);
+				}
+			}
+		fetchNotes();	
+	}, [])
+	
+	const renderedNotes = data.map(item => (
+	<Note header={item.note_header} body={item.note_body} noteId={item.id}/>
+	));
+
 	return (
 		<div className="min-h-screen">
 			<div className="text-center p-4">
@@ -37,12 +63,16 @@ const NotesPage = () => {
 							</button>
 						</div>
 						<div className="tooltip tooltip-left" data-tip="Add new note">
-							<button className="btn btn-circle">
+							<button  className="btn btn-circle">
 								<AddIcon />
 							</button>
 						</div>
 					</div>
-					<Note header="Header" body="Body" />
+					{renderedNotes}
+					<Note header="" body="" noteId="6"/>
+					{/*
+					<Note header="Header" body="Body" noteId={5}/>
+					*/}
 				</div>
 			</div>
 		</div>

@@ -5,7 +5,7 @@ import { z } from "zod";
 import { LoginErrorInterface, appApi } from "../api/services/AppApi";
 import ThemeButton from "../components/ThemeButton";
 import useSessionStorage from "../hooks/useSessionStorage";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import ToastMessage from "../components/ToastMessage";
 
 const loginSchema = z.object({
@@ -30,7 +30,7 @@ const LoginPage = () => {
 	const {
 		register,
 		handleSubmit,
-		formState: { errors },
+		formState: { errors }, 
 	} = useForm<LoginFormInputs>({
 		resolver: zodResolver(loginSchema),
 	}); // Message to display in the popup
@@ -47,6 +47,7 @@ const LoginPage = () => {
 				setSessionToken(response.data);
 				// Display OK message
 				setPopupMessage("Login successful!");
+				navigate("/notes")
 			})
 			.catch((error: LoginErrorInterface) => {
 				setIsError(true);

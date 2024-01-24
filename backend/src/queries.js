@@ -67,7 +67,7 @@ const getNotesByUserId = async (req, res) => {
 
 const editNoteByNoteId = async (req, res) => {
 	const {noteId, note_header, note_body} = req.body;
-	const timenow = Date.now;
+	const timenow = new Date(Date.now()).toISOString();
 	if(isNumber(noteId)){
 		try {
 			db.query('UPDATE note.notes SET note_header = $1, note_body = $2, date_last_edit = $3 WHERE id = $4',

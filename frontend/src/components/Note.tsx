@@ -1,7 +1,7 @@
 import DeleteIcon from "../assets/icons/DeleteIcon";
 import DotMenuIcon from "../assets/icons/DotMenuIcon";
 import PeopleIcon from "../assets/icons/PeopleIcon";
-import {appApi } from "../api/services/AppApi";
+import { appApi } from "../api/services/AppApi";
 import ToastMessage from "./ToastMessage";
 import { useState } from "react";
 
@@ -11,14 +11,14 @@ interface NoteProps {
 	noteId: string;
 }
 
-
-
 const Note = (props: NoteProps) => {
 	const [popupMessage, setPopupMessage] = useState<string | null>(null);
+	const [body, setBody] = useState(props.body);
+	const [header, setHeader] = useState(props.header);
 
 	return (
 		<div className="card bg-base-200 shadow-xl w-96 h-96 p-4 relative border-solid border-[2px] border-base-300">
-			<ToastMessage toastMessage={popupMessage}/>
+			<ToastMessage toastMessage={popupMessage} />
 			<div className="absolute top-1 right-1">
 				<div className="dropdown dropdown-end">
 					<div
@@ -49,8 +49,12 @@ const Note = (props: NoteProps) => {
 			<textarea
 				rows={1}
 				className="textarea textarea-bordered resize-none bg-base-200 max-w-xs"
-				placeholder="Header" 
+				placeholder="Header"
 				defaultValue={props.header}
+				onBlur={(e) => {
+					console.log(e.target.value);
+					setHeader(e.target.value);
+				}}
 			/>
 
 			<div className="card-body text-left">
@@ -58,21 +62,34 @@ const Note = (props: NoteProps) => {
 					className="textarea textarea-bordered h-full resize-none bg-base-200"
 					placeholder="Body"
 					defaultValue={props.body}
+					onBlur={(e) => {
+						console.log(e.target.value);
+						setBody(e.target.value);
+					}}
 				/>
 			</div>
 
 			<div className="card-actions justify-end">
-				<button 
+				<button
 					className="btn btn-primary"
 					onClick={() => {
+						console.log({
+							id: props.noteId,
+							note_header: props.header,
+							note_body: props.body,
+						});
 						appApi
-							.editNote({noteId: props.noteId, note_header: props.header, note_body: props.body})
+							.editNote({
+								id: props.noteId,
+								note_header: header,
+								note_body: body,
+							})
 							.then((response) => {
 								setPopupMessage("Saved!");
-								console.log(JSON.stringify(response))
-							})
+								console.log(JSON.stringify(response));
+							});
 					}}
-					>
+				>
 					Save
 				</button>
 			</div>

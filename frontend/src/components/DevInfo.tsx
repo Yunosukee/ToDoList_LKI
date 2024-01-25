@@ -4,7 +4,7 @@ import ThemeButton from "./ThemeButton";
 
 const DevInfo = () => {
 	return (
-		<div className="border border-base-content flex gap-4 p-4 absolute w-full bottom-0 bg-base-300 z-50">
+		<div className="border border-base-content flex gap-4 p-4 w-full bg-base-300 z-50">
 			<div className="px-5 mt-6">
 				{/* Displaying program name and version */}
 				<p className="text-center">

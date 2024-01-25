@@ -1,6 +1,7 @@
-import { Axios, AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import { main } from "../../configure";
 import { axiosGet, axiosPost } from "../AxiosService";
+import { editNoteSendDataRecast } from "../editNoteSendDataRecast";
 
 const API_URL = main.api_url;
 
@@ -9,15 +10,12 @@ interface LoginInterface {
 	password: string;
 }
 interface NewNoteInterface {
-  noteHeader: string;
+	noteHeader: string;
 	noteBody: string;
 	ownerId: number;
 }
-interface UserIdInterface {
-	ownerId: string;
-}
 export interface EditNoteInterface {
-	noteId: string;
+	id: string;
 	note_header: string;
 	note_body: string;
 }
@@ -30,21 +28,20 @@ export interface LoginErrorInterface {
 	response: { data: string };
 }
 
-
-
 export const appApi = {
 	login: (data: LoginInterface): Promise<AxiosResponse> => {
 		return axiosPost(API_URL + "/Users/login", data);
 	},
-  newNote: (data: NewNoteInterface): Promise<AxiosResponse> => {
-		return axiosPost(API_URL + "/Notes/createNote", data)
+	newNote: (data: NewNoteInterface): Promise<AxiosResponse> => {
+		return axiosPost(API_URL + "/Notes/createNote", data);
 	},
-	getNote: (data: UserIdInterface): Promise<AxiosResponse> => {
-	  return axiosGet(API_URL + "/Notes/getNotesByUserId/" +  data);
+	getNote: (data: string): Promise<AxiosResponse> => {
+		return axiosGet(API_URL + "/Notes/getNotesByUserId/" + data);
 	},
 	editNote: (data: EditNoteInterface): Promise<AxiosResponse> => {
-		return axiosPost(API_URL + "/Notes/editNoteByNoteId", data)
-	}
+		return axiosPost(
+			API_URL + "/Notes/editNoteByNoteId",
+			editNoteSendDataRecast(data),
+		);
+	},
 };
-
-

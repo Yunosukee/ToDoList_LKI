@@ -7,33 +7,37 @@ import { SETTINGS } from "../consts";
 import useSessionStorage from "../hooks/useSessionStorage";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { appApi } from "../api/services/AppApi";
-
-
+import { EditNoteInterface, appApi } from "../api/services/AppApi";
 
 const NotesPage = () => {
-	const [, setToken] = useSessionStorage<string | null>("token", null);
+	const [token, setToken] = useSessionStorage<string | null>("token", null);
 	const navigate = useNavigate();
 	const [data, setData] = useState([]);
-  
+
 	useEffect(() => {
-	  const fetchNotes = async () =>{
-		const userId = sessionStorage.getItem('token');
-		try {
-			appApi
-	  		.getNote(userId)
-				.then((response) => {
-					setData(response.data)
-				})
+		if (!token) {
+			navigate("/");
+		} else {
+			const fetchNotes = async () => {
+				try {
+					appApi.getNote(token).then((response) => {
+						setData(response.data as unknown as []);
+					});
 				} catch (err) {
-				console.log("error getting notes " + err);
+					console.log("error getting notes " + err);
 				}
-			}
-		fetchNotes();	
-	}, [])
-	
-	const renderedNotes = data.map(item => (
-	<Note header={item.note_header} body={item.note_body} noteId={item.id}/>
+			};
+			fetchNotes();
+		}
+	}, []);
+
+	const renderedNotes = data.map((item: EditNoteInterface, index) => (
+		<Note
+			key={index}
+			header={item.note_header}
+			body={item.note_body}
+			noteId={item.id}
+		/>
 	));
 
 	return (
@@ -63,16 +67,12 @@ const NotesPage = () => {
 							</button>
 						</div>
 						<div className="tooltip tooltip-left" data-tip="Add new note">
-							<button  className="btn btn-circle">
+							<button className="btn btn-circle">
 								<AddIcon />
 							</button>
 						</div>
 					</div>
 					{renderedNotes}
-					<Note header="" body="" noteId="6"/>
-					{/*
-					<Note header="Header" body="Body" noteId={5}/>
-					*/}
 				</div>
 			</div>
 		</div>

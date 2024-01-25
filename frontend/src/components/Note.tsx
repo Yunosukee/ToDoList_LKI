@@ -13,12 +13,14 @@ interface NoteProps {
 
 const Note = (props: NoteProps) => {
 	const [popupMessage, setPopupMessage] = useState<string | null>(null);
+	const [errorMessage, setErrorMessage] = useState<string | null>(null);
 	const [body, setBody] = useState(props.body);
 	const [header, setHeader] = useState(props.header);
 
 	return (
 		<div className="card bg-base-200 shadow-xl w-96 h-96 p-4 relative border-solid border-[2px] border-base-300">
 			<ToastMessage toastMessage={popupMessage} />
+			<ToastMessage toastMessage={errorMessage} isError/>
 			<div className="absolute bottom-4 left-4 btn btn-circle bg-neutral btn-sm">
 				<p>{props.noteId}</p>
 			</div>
@@ -40,7 +42,17 @@ const Note = (props: NoteProps) => {
 							</button>
 						</li>
 						<li>
-							<button className="bg-error">
+							<button 
+							className="bg-error"
+							onClick={() => {
+								appApi
+									.deleteNote(props.noteId)
+									.then((response) => {
+										setErrorMessage("Deleted!");
+										console.log(JSON.stringify(response));
+									});
+							}}
+							>
 								<DeleteIcon />
 								Delete
 							</button>

@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import { main } from "../../configure";
-import { axiosGet, axiosPost } from "../AxiosService";
+import { axiosDelete, axiosGet, axiosPost } from "../AxiosService";
 import { editNoteSendDataRecast } from "../editNoteSendDataRecast";
 
 const API_URL = main.api_url;
@@ -12,7 +12,7 @@ interface LoginInterface {
 interface NewNoteInterface {
 	noteHeader: string;
 	noteBody: string;
-	ownerId: number;
+	ownerId: string;
 }
 export interface EditNoteInterface {
 	id: string;
@@ -43,5 +43,8 @@ export const appApi = {
 			API_URL + "/Notes/editNoteByNoteId",
 			editNoteSendDataRecast(data),
 		);
+	},
+	deleteNote: (data: string): Promise<AxiosResponse> => {
+		return axiosDelete(API_URL + "/Notes/deteteNoteByNoteId/" + data);
 	},
 };

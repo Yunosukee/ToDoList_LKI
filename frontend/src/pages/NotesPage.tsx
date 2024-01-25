@@ -8,6 +8,7 @@ import Note from "../components/Note";
 import ThemeButton from "../components/ThemeButton";
 import { SETTINGS } from "../consts";
 import { sessionToken, setSessionToken } from "./LoginPage";
+import { json } from "stream/consumers";
 
 const NotesPage = () => {
 	const navigate = useNavigate();
@@ -64,7 +65,21 @@ const NotesPage = () => {
 							</button>
 						</div>
 						<div className="tooltip tooltip-left" data-tip="Add new note">
-							<button className="btn btn-circle">
+							<button 
+								className="btn btn-circle"
+								onClick={() => {
+									appApi
+										.newNote({
+											noteHeader: "",
+											noteBody: "",
+											ownerId: sessionToken
+										})
+										.then((response) => {
+											console.log(JSON.stringify(response));
+										})
+									}
+								}
+							>
 								<AddIcon />
 							</button>
 						</div>

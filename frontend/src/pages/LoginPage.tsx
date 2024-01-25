@@ -4,9 +4,9 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { LoginErrorInterface, appApi } from "../api/services/AppApi";
 import ThemeButton from "../components/ThemeButton";
-import useSessionStorage from "../hooks/useSessionStorage";
 import { useNavigate } from "react-router-dom";
 import ToastMessage from "../components/ToastMessage";
+import useSessionStorage from "../hooks/useSessionStorage";
 
 const loginSchema = z.object({
 	login: z.string().min(1, "Login is required"),
@@ -15,17 +15,18 @@ const loginSchema = z.object({
 
 // Define the type for the form data
 type LoginFormInputs = z.infer<typeof loginSchema>;
-
+let sessionToken: string | null,
+	setSessionToken: (value: string | null) => void;
 const LoginPage = () => {
 	// ---- HOOKS ----
 	const [isSubmitting, setIsSetsubmitting] = useState(false); // Locks login button while submitting
 	const [isError, setIsError] = useState(false); // Error status
 	const navigate = useNavigate(); // Location hook from wouter (used to redirect to the notes page)
-	const [sessionToken, setSessionToken] = useSessionStorage<string | null>(
+	const [popupMessage, setPopupMessage] = useState<string | null>(null);
+	[sessionToken, setSessionToken] = useSessionStorage<string | null>(
 		"token",
 		null,
-	); // Keep/read the session token in the local storage
-	const [popupMessage, setPopupMessage] = useState<string | null>(null);
+	);
 	// Use the useForm hook with Zod resolver
 	const {
 		register,
@@ -125,3 +126,4 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+export { sessionToken, setSessionToken };

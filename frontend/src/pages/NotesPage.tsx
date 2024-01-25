@@ -1,37 +1,34 @@
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { EditNoteInterface, appApi } from "../api/services/AppApi";
+import AddIcon from "../assets/icons/AddIcon";
+import LogoutIcon from "../assets/icons/LogoutIcon";
+import SettingsOutlineIcon from "../assets/icons/SettingsOutlineIcon";
 import Note from "../components/Note";
 import ThemeButton from "../components/ThemeButton";
-import SettingsOutlineIcon from "../assets/icons/SettingsOutlineIcon";
-import LogoutIcon from "../assets/icons/LogoutIcon";
-import AddIcon from "../assets/icons/AddIcon";
 import { SETTINGS } from "../consts";
-import useSessionStorage from "../hooks/useSessionStorage";
-import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { EditNoteInterface, appApi } from "../api/services/AppApi";
+import { sessionToken, setSessionToken } from "./LoginPage";
 
 const NotesPage = () => {
-	const [token, setToken] = useSessionStorage<string | null>("token", null);
 	const navigate = useNavigate();
-	const [data, setData] = useState([]);
+	const [notes, setNotes] = useState([]);
 
 	useEffect(() => {
-		if (!token) {
-			navigate("/");
+		if (sessionToken !== null) {
+			appApi
+				.getNote(sessionToken)
+				.then((response) => {
+					setNotes(response.data as unknown as []);
+				})
+				.catch((error) => {
+					console.log("error getting notes " + error);
+				});
 		} else {
-			const fetchNotes = async () => {
-				try {
-					appApi.getNote(token).then((response) => {
-						setData(response.data as unknown as []);
-					});
-				} catch (err) {
-					console.log("error getting notes " + err);
-				}
-			};
-			fetchNotes();
+			navigate("/");
 		}
 	}, []);
 
-	const renderedNotes = data.map((item: EditNoteInterface, index) => (
+	const renderedNotes = notes.map((item: EditNoteInterface, index) => (
 		<Note
 			key={index}
 			header={item.note_header}
@@ -59,7 +56,7 @@ const NotesPage = () => {
 							<button
 								className="btn btn-circle"
 								onClick={() => {
-									setToken(null);
+									setSessionToken(null);
 									navigate("/");
 								}}
 							>

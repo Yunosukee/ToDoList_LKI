@@ -19,6 +19,9 @@ const Note = (props: NoteProps) => {
 	return (
 		<div className="card bg-base-200 shadow-xl w-96 h-96 p-4 relative border-solid border-[2px] border-base-300">
 			<ToastMessage toastMessage={popupMessage} />
+			<div className="absolute bottom-4 left-4 btn btn-circle bg-neutral btn-sm">
+				<p>{props.noteId}</p>
+			</div>
 			<div className="absolute top-1 right-1">
 				<div className="dropdown dropdown-end">
 					<div
@@ -45,7 +48,6 @@ const Note = (props: NoteProps) => {
 					</ul>
 				</div>
 			</div>
-			<p>{props.noteId}</p>
 			<textarea
 				rows={1}
 				className="textarea textarea-bordered resize-none bg-base-200 max-w-xs"

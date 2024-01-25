@@ -1,7 +1,6 @@
 import React from "react";
 import { v4 } from "uuid";
 import { Link } from "react-router-dom";
-import inDev from "../utils/inDebug";
 import * as R from "./routes";
 import { Routes } from "./routes";
 
@@ -12,12 +11,12 @@ const routesCrawler = (
 	// Roll through routes and generate Route for each
 	return routesPack.map((route): JSX.Element => {
 		// Debug log shows generated routes
-		inDev(() =>
-			console.log(
-				"routesCrawler buttons",
-				parentPath ? parentPath + route.path : route.path,
-			),
-		);
+		// inDev(() =>
+		// 	console.log(
+		// 		"routesCrawler buttons",
+		// 		parentPath ? parentPath + route.path : route.path,
+		// 	),
+		// );
 		return (
 			<div key={v4()} className="join">
 				{/* Check does route have children and perform routing generation for children */}

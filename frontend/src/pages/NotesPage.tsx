@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { EditNoteInterface, appApi } from "../api/services/AppApi";
 import AddIcon from "../assets/icons/AddIcon";
 import LogoutIcon from "../assets/icons/LogoutIcon";
@@ -7,26 +7,36 @@ import SettingsOutlineIcon from "../assets/icons/SettingsOutlineIcon";
 import Note from "../components/Note";
 import ThemeButton from "../components/ThemeButton";
 import { SETTINGS } from "../consts";
-import { sessionToken, setSessionToken } from "./LoginPage";
-import { json } from "stream/consumers";
+import useSessionStorage from "../hooks/useSessionStorage";
 
 const NotesPage = () => {
-	const navigate = useNavigate();
-	const [notes, setNotes] = useState([]);
+	const [notes, setNotes] = useState<Array<EditNoteInterface>>([]);
+	const [sessionToken, setSessionToken] = useSessionStorage<string | null>(
+		"token",
+		null,
+	);
 
-	useEffect(() => {
+	const getNotes = () => {
 		if (sessionToken !== null) {
 			appApi
 				.getNote(sessionToken)
 				.then((response) => {
-					setNotes(response.data as unknown as []);
+					setNotes(
+						(response.data as Array<EditNoteInterface>).sort(
+							(a, b) => Number(a.id) - Number(b.id),
+						),
+					);
 				})
 				.catch((error) => {
-					console.log("error getting notes " + error);
+					console.error("error getting notes " + error);
 				});
 		} else {
-			navigate("/");
+			window.location.pathname = "/";
 		}
+	};
+
+	useEffect(() => {
+		getNotes();
 	}, []);
 
 	const renderedNotes = notes.map((item: EditNoteInterface, index) => (
@@ -58,27 +68,27 @@ const NotesPage = () => {
 								className="btn btn-circle"
 								onClick={() => {
 									setSessionToken(null);
-									navigate("/");
+									window.location.pathname = "/";
 								}}
 							>
 								<LogoutIcon />
 							</button>
 						</div>
 						<div className="tooltip tooltip-left" data-tip="Add new note">
-							<button 
+							<button
 								className="btn btn-circle"
 								onClick={() => {
 									appApi
 										.newNote({
 											noteHeader: "",
 											noteBody: "",
-											ownerId: sessionToken
+											ownerId: sessionToken || "1",
 										})
-										.then((response) => {
-											console.log(JSON.stringify(response));
-										})
-									}
-								}
+										.then(() => {
+											getNotes();
+											window.location.reload();
+										});
+								}}
 							>
 								<AddIcon />
 							</button>

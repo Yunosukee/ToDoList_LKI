@@ -4,7 +4,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { LoginErrorInterface, appApi } from "../api/services/AppApi";
 import ThemeButton from "../components/ThemeButton";
-import { useNavigate } from "react-router-dom";
 import ToastMessage from "../components/ToastMessage";
 import useSessionStorage from "../hooks/useSessionStorage";
 
@@ -15,15 +14,14 @@ const loginSchema = z.object({
 
 // Define the type for the form data
 type LoginFormInputs = z.infer<typeof loginSchema>;
-let sessionToken: string | null,
-	setSessionToken: (value: string | null) => void;
+
 const LoginPage = () => {
 	// ---- HOOKS ----
 	const [isSubmitting, setIsSetsubmitting] = useState(false); // Locks login button while submitting
 	const [isError, setIsError] = useState(false); // Error status
-	const navigate = useNavigate(); // Location hook from wouter (used to redirect to the notes page)
+	// const navigate = useNavigate(); // Location hook from wouter (used to redirect to the notes page)
 	const [popupMessage, setPopupMessage] = useState<string | null>(null);
-	[sessionToken, setSessionToken] = useSessionStorage<string | null>(
+	const [sessionToken, setSessionToken] = useSessionStorage<string | null>(
 		"token",
 		null,
 	);
@@ -48,7 +46,8 @@ const LoginPage = () => {
 				setSessionToken(response.data);
 				// Display OK message
 				setPopupMessage("Login successful!");
-				navigate("/notes");
+				window.location.pathname = "/notes";
+				// navigate("/notes");
 			})
 			.catch((error: LoginErrorInterface) => {
 				setIsError(true);
@@ -69,7 +68,7 @@ const LoginPage = () => {
 		return () => clearTimeout(timer);
 	}, [popupMessage]);
 	useEffect(() => {
-		if (sessionToken) navigate("/notes");
+		if (sessionToken) window.location.pathname = "/notes";
 	});
 
 	// ---- RENDER ----
@@ -126,4 +125,3 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
-export { sessionToken, setSessionToken };

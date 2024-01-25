@@ -1,9 +1,9 @@
+import { useState } from "react";
+import { appApi } from "../api/services/AppApi";
 import DeleteIcon from "../assets/icons/DeleteIcon";
 import DotMenuIcon from "../assets/icons/DotMenuIcon";
 import PeopleIcon from "../assets/icons/PeopleIcon";
-import { appApi } from "../api/services/AppApi";
 import ToastMessage from "./ToastMessage";
-import { useState } from "react";
 
 interface NoteProps {
 	header: string;
@@ -20,8 +20,8 @@ const Note = (props: NoteProps) => {
 	return (
 		<div className="card bg-base-200 shadow-xl w-96 h-96 p-4 relative border-solid border-[2px] border-base-300">
 			<ToastMessage toastMessage={popupMessage} />
-			<ToastMessage toastMessage={errorMessage} isError/>
-			<div className="absolute bottom-4 left-4 btn btn-circle bg-neutral btn-sm">
+			<ToastMessage toastMessage={errorMessage} isError />
+			<div className="absolute bottom-4 left-4 badge badge-outline badge-sm">
 				<p>{props.noteId}</p>
 			</div>
 			<div className="absolute top-1 right-1">
@@ -42,16 +42,15 @@ const Note = (props: NoteProps) => {
 							</button>
 						</li>
 						<li>
-							<button 
-							className="bg-error"
-							onClick={() => {
-								appApi
-									.deleteNote(props.noteId)
-									.then((response) => {
+							<button
+								className="bg-error"
+								onClick={() => {
+									appApi.deleteNote(props.noteId).then((response) => {
 										setErrorMessage("Deleted!");
 										console.log(JSON.stringify(response));
+										window.location.reload();
 									});
-							}}
+								}}
 							>
 								<DeleteIcon />
 								Delete
@@ -101,6 +100,7 @@ const Note = (props: NoteProps) => {
 							.then((response) => {
 								setPopupMessage("Saved!");
 								console.log(JSON.stringify(response));
+								window.location.reload();
 							});
 					}}
 				>

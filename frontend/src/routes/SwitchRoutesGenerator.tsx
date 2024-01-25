@@ -1,7 +1,6 @@
 import React from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { v4 } from "uuid";
-import { Routes, Route, Navigate } from "react-router-dom";
-import inDev from "../utils/inDebug";
 import * as R from "./routes";
 import { Routes as IRoutes } from "./routes";
 
@@ -12,12 +11,12 @@ const routesCrawler = (
 	// Roll through routes and generate Route for each
 	return routesPack.map((route): JSX.Element => {
 		// Debug log shows generated routes
-		inDev(() =>
-			console.log(
-				"routesCrawler routes",
-				parentPath ? parentPath + route.path : route.path,
-			),
-		);
+		// inDev(() =>
+		// 	console.log(
+		// 		"routesCrawler routes",
+		// 		parentPath ? parentPath + route.path : route.path,
+		// 	),
+		// );
 		return route.children ? (
 			<React.Fragment key={v4()}>
 				{routesCrawler(parentPath ?? "" + route.path, route.children)}

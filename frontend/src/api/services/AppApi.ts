@@ -14,6 +14,17 @@ interface NewNoteInterface {
 	noteBody: string;
 	ownerId: string;
 }
+export interface NoteInterface {
+	id: number;
+	note_header: string;
+	note_body: string;
+	owner_id: number;
+	date_added: string;
+	date_last_edit: string;
+	note_id: number | null;
+	user_id: number | null;
+	canedit: number | null;
+}
 export interface EditNoteInterface {
 	id: string;
 	note_header: string;

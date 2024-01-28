@@ -4,11 +4,12 @@ import DeleteIcon from "../assets/icons/DeleteIcon";
 import DotMenuIcon from "../assets/icons/DotMenuIcon";
 import PeopleIcon from "../assets/icons/PeopleIcon";
 import ToastMessage from "./ToastMessage";
+import PermissionModal from "./PermissionModal";
 
 interface NoteProps {
 	header: string;
 	body: string;
-	noteId: string;
+	noteId: number;
 }
 
 const Note = (props: NoteProps) => {
@@ -21,6 +22,7 @@ const Note = (props: NoteProps) => {
 		<div className="card bg-base-200 shadow-xl w-96 h-96 p-4 relative border-solid border-[2px] border-base-300">
 			<ToastMessage toastMessage={popupMessage} />
 			<ToastMessage toastMessage={errorMessage} isError />
+			<PermissionModal noteId={props.noteId} />
 			<div className="absolute bottom-4 left-4 badge badge-outline badge-sm">
 				<p>{props.noteId}</p>
 			</div>
@@ -37,8 +39,13 @@ const Note = (props: NoteProps) => {
 					<ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52 gap-2">
 						<li>
 							<button>
-								<PeopleIcon />
-								Permissions
+								<label
+									htmlFor={`permission_modal_${props.noteId}`}
+									className="w-full flex gap-2"
+								>
+									<PeopleIcon />
+									Permission
+								</label>
 							</button>
 						</li>
 						<li>
@@ -65,7 +72,6 @@ const Note = (props: NoteProps) => {
 				placeholder="Header"
 				defaultValue={props.header}
 				onBlur={(e) => {
-					console.log(e.target.value);
 					setHeader(e.target.value);
 				}}
 			/>
@@ -100,7 +106,7 @@ const Note = (props: NoteProps) => {
 							.then((response) => {
 								setPopupMessage("Saved!");
 								console.log(JSON.stringify(response));
-								window.location.reload();
+								// window.location.reload();
 							});
 					}}
 				>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { EditNoteInterface, appApi } from "../api/services/AppApi";
+import { GetNoteInterface, appApi } from "../api/services/AppApi";
 import AddIcon from "../assets/icons/AddIcon";
 import LogoutIcon from "../assets/icons/LogoutIcon";
 import SettingsOutlineIcon from "../assets/icons/SettingsOutlineIcon";
@@ -10,7 +10,7 @@ import { SETTINGS } from "../consts";
 import useSessionStorage from "../hooks/useSessionStorage";
 
 const NotesPage = () => {
-	const [notes, setNotes] = useState<Array<EditNoteInterface>>([]);
+	const [notes, setNotes] = useState<Array<GetNoteInterface>>([]);
 	const [sessionToken, setSessionToken] = useSessionStorage<string | null>(
 		"token",
 		null,
@@ -22,8 +22,8 @@ const NotesPage = () => {
 				.getNote(sessionToken)
 				.then((response) => {
 					setNotes(
-						(response.data as Array<EditNoteInterface>).sort(
-							(a, b) => Number(a.id) - Number(b.id),
+						response.data.sort(
+							(a, b) => Number(a.note_id ?? a.id) - Number(b.note_id ?? b.id),
 						),
 					);
 				})
@@ -39,12 +39,12 @@ const NotesPage = () => {
 		getNotes();
 	}, []);
 
-	const renderedNotes = notes.map((item: EditNoteInterface, index) => (
+	const renderedNotes = notes.map((item, index) => (
 		<Note
 			key={index}
 			header={item.note_header}
 			body={item.note_body}
-			noteId={item.id}
+			noteId={item.note_id ?? item.id}
 		/>
 	));
 
@@ -57,7 +57,7 @@ const NotesPage = () => {
 							<ThemeButton />
 						</div>
 						<div className="tooltip tooltip-left" data-tip="Settings">
-							<Link to={"/"+SETTINGS}>
+							<Link to={"/" + SETTINGS}>
 								<button className="btn btn-circle">
 									<SettingsOutlineIcon />
 								</button>

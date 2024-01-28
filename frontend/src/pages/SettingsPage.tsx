@@ -12,10 +12,14 @@ import { z } from "zod";
 import ToastMessage from "../components/ToastMessage";
 
 const SettingsPage = () => {
-	const [isSubmited, setIsSubmited] = useState(false); // Locks login button while submitting
 	const [popupMessage, setPopupMessage] = useState<string | null>(null);
+	const [isError, setIsError] = useState(false); // Error status
 	const [sessionUserName] = useSessionStorage<string | null>(
 		"userName",
+		null,
+	);
+	const [,setSessionUserDeleted] = useSessionStorage<boolean | null>(
+		"userDeleted",
 		null,
 	);
 	const [sessionToken, setSessionToken] = useSessionStorage<string | null>(
@@ -29,8 +33,8 @@ const SettingsPage = () => {
 		message: "Passwords must match",
 		path: ["password2"]
 	});
-	
-	// Define the type for the form data
+
+	// Define the type for the form datas
 	type LoginFormInputs = z.infer<typeof passwordChangeSchema>;
 
 	const {
@@ -45,34 +49,34 @@ const SettingsPage = () => {
 	// ---- FUNCTIONS ----
 	// Function to handle form submission (login request)
 	const onSubmit: SubmitHandler<LoginFormInputs> = (passwordChangeSchema) => {
-		if (sessionToken)
-		{
-		appApi
-			.editPassword(
-				{ 
-					userId: sessionToken,
-					newPassword: passwordChangeSchema.password1
-				} 
-			)
-			.then(() => {
-				// Display OK message
-				setPopupMessage("Password changed successfully!");
-			})
-			.catch((error: LoginErrorInterface) => {
-				setPopupMessage(error.message + " " + "(" + error.response.data + ")");
-			})
-			.finally(() =>{
-				reset();
-			})
+		if (sessionToken) {
+			appApi
+				.editPassword(
+					{
+						userId: sessionToken,
+						newPassword: passwordChangeSchema.password1
+					}
+				)
+				.then(() => {
+					// Display OK message
+					setPopupMessage("Password changed successfully!");
+				})
+				.catch((error: LoginErrorInterface) => {
+					setPopupMessage(error.message + " " + "(" + error.response.data + ")");
+				})
+				.finally(() => {
+					reset();
+				})
 		} else console.log("CHUJ NIE MASZ TOKENA")
 	};
-	
+
 	// Function to handle the toast
 
 	// ---- EFFECTS ----
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			setPopupMessage(null);
+			setIsError(false);
 		}, 3000);
 		return () => clearTimeout(timer);
 	}, [popupMessage]);
@@ -82,7 +86,7 @@ const SettingsPage = () => {
 
 	return (
 		<div className="min-h-screen hero">
-		<ToastMessage toastMessage={popupMessage}/>
+		<ToastMessage toastMessage={popupMessage} isError={isError}/>
 			<div className="hero-content flex-col">
 				<div>{"Hiellow "+ sessionUserName}</div>
 				<form className="card w-96 bg-neutral text-neutral-content" onSubmit={handleSubmit(onSubmit)}>
@@ -125,7 +129,26 @@ const SettingsPage = () => {
 						<input type="checkbox" className="w-full" />
 						<div className="collapse-title flex">DANGER ZONE !</div>
 						<div className="collapse-content justify-center flex">
-							<button className="btn btn-error">Delete Account</button>
+							<button className="btn btn-error" onClick={() => {
+								if(parseInt(sessionToken || "0") !== 1 && sessionToken)
+								{
+									appApi.deleteUser(parseInt(sessionToken))
+									.then(() => {
+										// Display OK message
+										setSessionUserDeleted(true);
+										setSessionToken(null);
+										window.location.pathname = "/login";
+									})
+									.catch((error: LoginErrorInterface) => {
+										setPopupMessage(error.message + " " + "(" + error.response.data + ")");
+										setIsError(true);
+									})
+								} else 
+								{
+									setPopupMessage("Admin account can't be disabled!");
+									setIsError(true);
+								}
+							}}>Delete Account</button>
 						</div>
 					</div>
 				</div>
@@ -153,7 +176,7 @@ const SettingsPage = () => {
 					</Link>
 				</div>
 			</div>
-		</div>
+		</div >
 	);
 };
 

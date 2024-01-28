@@ -2,6 +2,7 @@ import { AxiosResponse } from "axios";
 import { main } from "../../configure";
 import { axiosDelete, axiosGet, axiosPost } from "../AxiosService";
 import { editNoteSendDataRecast } from "../editNoteSendDataRecast";
+import internal from "stream";
 
 const API_URL = main.api_url;
 
@@ -64,5 +65,8 @@ export const appApi = {
 	},
 	editPassword: (data: ResetPasswordInterface) =>{
 		return axiosPost(API_URL + "/Users/editUserPasswordByUserId/", data);
+	},
+	deleteUser: (data: number) =>{
+		return axiosDelete(API_URL + "/User/disableUserByUserId/" + data);
 	}
 };

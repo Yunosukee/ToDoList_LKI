@@ -29,6 +29,10 @@ const LoginPage = () => {
 		"userName",
 		null,
 	);
+	const [sessionUserDeleted, setSessionUserDeleted] = useSessionStorage<boolean | null>(
+		"userDeleted",
+		null,
+	);
 	// Use the useForm hook with Zod resolver
 	const {
 		register,
@@ -63,17 +67,23 @@ const LoginPage = () => {
 			});
 	};
 	// Function to handle the toast
-
 	// ---- EFFECTS ----
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			setPopupMessage(null);
 			setIsError(false);
+			setSessionUserDeleted(null);
 		}, 3000);
 		return () => clearTimeout(timer);
 	}, [popupMessage]);
 	useEffect(() => {
+			if (sessionUserDeleted){
+				setPopupMessage("Your Account has been deleted sucessfully");
+			}
+	}, [popupMessage]);
+	useEffect(() => {
 		if (sessionToken) window.location.pathname = "/notes";
+		else setSessionUserName(null);
 	});
 
 	// ---- RENDER ----
@@ -87,6 +97,7 @@ const LoginPage = () => {
 			</div>
 			{/* Toast */}
 			<ToastMessage toastMessage={popupMessage} isError={isError} />
+
 			{/* Login */}
 			<div className="hero-content flex-col">
 				<form

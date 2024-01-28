@@ -57,7 +57,7 @@ const NotesPage = () => {
 							<ThemeButton />
 						</div>
 						<div className="tooltip tooltip-left" data-tip="Settings">
-							<Link to={SETTINGS}>
+							<Link to={"/"+SETTINGS}>
 								<button className="btn btn-circle">
 									<SettingsOutlineIcon />
 								</button>

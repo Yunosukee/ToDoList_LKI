@@ -9,6 +9,10 @@ interface LoginInterface {
 	login: string;
 	password: string;
 }
+interface ResetPasswordInterface{
+	userId: string,
+	newPassword: string
+}
 interface NewNoteInterface {
 	noteHeader: string;
 	noteBody: string;
@@ -58,4 +62,7 @@ export const appApi = {
 	deleteNote: (data: string): Promise<AxiosResponse> => {
 		return axiosDelete(API_URL + "/Notes/deteteNoteByNoteId/" + data);
 	},
+	editPassword: (data: ResetPasswordInterface) =>{
+		return axiosPost(API_URL + "/Users/editUserPasswordByUserId/", data);
+	}
 };

@@ -25,6 +25,10 @@ const LoginPage = () => {
 		"token",
 		null,
 	);
+	const [, setSessionUserName] = useSessionStorage<string | null>(
+		"userName",
+		null,
+	);
 	// Use the useForm hook with Zod resolver
 	const {
 		register,
@@ -44,6 +48,7 @@ const LoginPage = () => {
 			.then((response) => {
 				// Set the session token
 				setSessionToken(response.data);
+				setSessionUserName(data.login);
 				// Display OK message
 				setPopupMessage("Login successful!");
 				window.location.pathname = "/notes";

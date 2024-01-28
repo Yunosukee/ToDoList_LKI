@@ -108,6 +108,7 @@ const createPermission = async (req, res) => {
 		try {
 			db.query('INSERT INTO note.notespermissions (note_id, user_id, canedit) VALUES ($1, $2, $3)',
 				[noteId, userId, canEdit]) 
+			res.status(200).send('OK')
 		} catch (err) {
 			console.log(err)
 			res.status(500).send('error')

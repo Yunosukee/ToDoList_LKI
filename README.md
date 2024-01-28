@@ -1,3 +1,6 @@
+REPO: <https://github.com/Yunosukee/ToDoList_LKI>
+LIVE: <https://note.czechulab.duckdns.org/>
+
 # 📋 ToDoList_LKI 🚀
 
 Projekt na studium przypadku - programowanie w grupie programistycznej 🧑‍💻👩‍💻
@@ -76,6 +79,17 @@ Jeśli masz jakiekolwiek pytania lub potrzebujesz dalszej pomocy, jestem do Twoj
 > [!NOTE]  
 > login: admin
 > password: admin
+> id: 1
+
+> [!NOTE]  
+> login: Niemczyk
+> password: Niemczyk
+> id: 3
+
+> [!NOTE]  
+> login: Piątek
+> password: Piątek
+> id: 4
 
 ---
 
